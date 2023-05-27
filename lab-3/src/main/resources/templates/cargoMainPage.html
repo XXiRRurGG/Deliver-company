@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            display:inline-flex;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUrl = window.location.href;
+
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.action = currentUrl + '/delete';
+            });
+        });
+    </script>
+</head>
+<body>
+<ul>
+    <li th:each="cargo : ${cargos}">
+        <span th:text="${cargo.id + ':' + cargo.listofstrings.stringValue.replace(',', ' ')}"></span>
+        <div>
+            <form method="GET" th:object="${cargo}" class="edit-form" th:action="${'cargo/' + cargo.id + '/edit'}">
+                <button type="submit">Edit</button>
+            </form>
+            <form method="POST" th:object="${cargo}" class="delete-form">
+                <input type="hidden" name="_method" value="DELETE" />
+                <input type="hidden" name="cargo" th:value="${cargo.id}" />
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    </li>
+</ul>
+</body>
+</html>

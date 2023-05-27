@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stop Details</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const currentUrl = window.location.href;
+    //const name = document.getElementById('stop-name').innerText;
+
+    //document.getElementById('edit-form').action = currentUrl + '/edit';
+    //document.getElementById('edit-form-name').value = name;
+    document.getElementById('delete-form').action = currentUrl + '/delete';
+    document.getElementById('edit-form').action = currentUrl + '/edit';
+    });
+  </script>
+  <style>
+    #nameOfStop
+    {
+      color: #2f2faa;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<h1>Stop name</h1>
+<h1 id="nameOfStop"><td th:text="${stop.stop}" id="stop-name"></td></h1>
+
+<form method="POST" id="delete-form">
+  <input type="hidden" name="_method" value="DELETE" />
+  <input type="hidden" name="name" value="${stop.stop}" />
+  <button type="submit">Delete</button>
+</form>
+
+<form method="GET" id="edit-form">
+  <input type="hidden" name="name" id="edit-form-name" />
+  <a id="editA"><button type="submit">Edit</button></a>
+</form>
+</body>
+</html>

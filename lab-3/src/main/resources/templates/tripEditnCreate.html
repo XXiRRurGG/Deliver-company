@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add/Remove Stops</title>
+  <script>
+    // Select the available stops and selected stops lists
+    document.addEventListener('DOMContentLoaded', function() {
+    const availableStopsList = document.getElementById("available-stops");
+    const selectedStopsList = document.getElementById("selected-stops");
+
+    // Select the add and remove buttons
+    const addButtons = document.querySelectorAll(".add-button");
+    const removeButtons = document.querySelectorAll(".remove-button");
+
+    // Select the submit button
+    const submitButton = document.getElementById("submit-button");
+
+    // Store the selected stop IDs
+    const selectedStopIds = new Set();
+  /*
+    // Add click event listeners to the add buttons
+    addButtons.forEach(function(button) {
+      button.addEventListener("click", function(event) {
+        const stopId = event.target.dataset.stopId;
+        // Add the stop ID to the selected stop IDs set
+        selectedStopIds.add(stopId);
+        // Remove the stop from the available stops list
+        const stopElement = event.target.parentNode;
+        stopElement.parentNode.removeChild(stopElement);
+        // Add the stop to the selected stops list
+        selectedStopsList.appendChild(stopElement);
+      });
+    });
+
+    // Add click event listeners to the remove buttons
+    removeButtons.forEach(function(button) {
+      button.addEventListener("click", function(event) {
+        const stopId = event.target.dataset.stopId;
+        // Remove the stop ID from the selected stop IDs set
+        selectedStopIds.delete(stopId);
+        // Remove the stop from the selected stops list
+        const stopElement = event.target.parentNode;
+        stopElement.parentNode.removeChild(stopElement);
+        // Add the stop to the available stops list
+        availableStopsList.appendChild(stopElement);
+      });
+    });*/
+
+    // Add click event listener to the submit button
+    submitButton.addEventListener("click", function() {
+      // Convert the selected stop IDs set to an array
+      const selectedStopIdsArray = Array.from(selectedStopIds);
+      // Create a hidden input element for each selected stop ID
+      selectedStopIdsArray.forEach(function(stopId) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "selectedStopIds";
+        input.value = stopId;
+        selectedStopsList.appendChild(input);
+      });
+      // Submit the form
+      document.forms[0].submit();
+    });
+
+      // Add click event listeners to the add buttons
+      // Add click event listeners to the add buttons
+      addButtons.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+          const stopId = event.target.dataset.stopId;
+          // Add the stop ID to the selected stop IDs set
+          selectedStopIds.add(stopId);
+          // Remove the stop from the available stops list
+          const stopElement = event.target.parentNode;
+          stopElement.parentNode.removeChild(stopElement);
+          // Change the button text to "Remove"
+          button.textContent = "Remove";
+          button.classList.remove("add-button");
+          button.classList.add("remove-button");
+          // Add the stop to the selected stops list
+          selectedStopsList.appendChild(stopElement);
+        });
+      });
+
+// Add click event listeners to the remove buttons
+      removeButtons.forEach(function(button) {
+        button.addEventListener("click", function(event) {
+          const stopId = event.target.dataset.stopId;
+          // Remove the stop ID from the selected stop IDs set
+          selectedStopIds.delete(stopId);
+          // Remove the stop from the selected stops list
+          const stopElement = event.target.parentNode;
+          stopElement.parentNode.removeChild(stopElement);
+          // Change the button text to "Add"
+          button.textContent = "Add";
+          button.classList.remove("remove-button");
+          button.classList.add("add-button");
+          // Add the stop to the available stops list
+          availableStopsList.appendChild(stopElement);
+        });
+      });
+
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <div class="input-section">
+    <label for="from-location">From:</label>
+    <input type="text" id="from-location">
+    <label for="to-location">To:</label>
+    <input type="text" id="to-location">
+  </div>
+  <div class="stops-section">
+    <div class="left-section">
+      <h2>Available Stops</h2>
+      <ul id="available-stops">
+        <!-- Thymeleaf code to display available stops -->
+        <li th:each="stop : ${availableStops}">
+          <span th:text="${stop.stop}"></span>
+          <button class="add-button" data-stop-id="${stop.id}">Add</button>
+        </li>
+      </ul>
+    </div>
+    <div class="right-section">
+      <h2>Selected Stops</h2>
+      <ul id="selected-stops">
+        <!-- Thymeleaf code to display selected stops -->
+        <li th:each="stop : ${selectedStops}">
+          <span th:text="${stop.stop}"></span>
+          <button class="remove-button" data-stop-id="${stop.id}">Remove</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="submit-section">
+    <button id="submit-button">Submit</button>
+  </div>
+</div>
+</body>
+</html>
